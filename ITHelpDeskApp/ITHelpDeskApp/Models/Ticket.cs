@@ -26,13 +26,11 @@ namespace ITHelpDeskApp.Models
             Medium,
             High
         }
+        public string CreatedBy { get; set; } = string.Empty;
         public DateTime? CreatedDate { get; set; }
         public DateTime? ClosedDate { get; set; }
 
         // Foreign key references
-        public int CreatedByUserId { get; set; }
-        [ValidateNever]
-        public User? CreatedByUser { get; set; } = null;
         public int AssignedToUserId { get; set; }
         [ValidateNever]
         public User? AssignedToUser { get; set; } = null;

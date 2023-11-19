@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using ITHelpDeskApp.Models.ModelDataConfigurations;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace ITHelpDeskApp.Models
@@ -13,7 +14,8 @@ namespace ITHelpDeskApp.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.ApplyConfiguration(new ConfigureAccommodations());
+            modelBuilder.ApplyConfiguration(new ConfigureUsers());
+            modelBuilder.ApplyConfiguration(new ConfigureTickets());
         }
     }
 }

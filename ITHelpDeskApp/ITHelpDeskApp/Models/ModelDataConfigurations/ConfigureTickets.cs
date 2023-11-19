@@ -14,11 +14,6 @@ namespace ITHelpDeskApp.Models.ModelDataConfigurations
             .WithMany(g => g.Tickets)
             .HasForeignKey(s => s.AssignedToUserId);
 
-            // A non-IT User can create many Tickets
-            builder.HasOne<User>(t => t.CreatedByUser)
-            .WithMany(g => g.Tickets)
-            .HasForeignKey(s => s.CreatedByUserId);
-
             builder.HasData(
                 // Create 2 closed tickets - 1 assigned to each IT User from each non-IT user
                 new Ticket
@@ -31,7 +26,7 @@ namespace ITHelpDeskApp.Models.ModelDataConfigurations
                     Priority = Ticket.Priorities.Medium.ToString(),
                     CreatedDate = DateTime.Now.AddDays(-33),
                     ClosedDate = DateTime.Now.AddDays(-26).AddHours(3).AddMinutes(37),
-                    CreatedByUserId = 4,
+                    CreatedBy = "Alberta Crocodile",
                     AssignedToUserId = 1
                 },
                 new Ticket
@@ -44,7 +39,7 @@ namespace ITHelpDeskApp.Models.ModelDataConfigurations
                     Priority = Ticket.Priorities.Low.ToString(),
                     CreatedDate = DateTime.Now.AddDays(-22),
                     ClosedDate = DateTime.Now.AddDays(-20).AddHours(1).AddMinutes(48),
-                    CreatedByUserId = 3,
+                    CreatedBy = "John Doe",
                     AssignedToUserId = 2
                 },
 
@@ -58,7 +53,7 @@ namespace ITHelpDeskApp.Models.ModelDataConfigurations
                     Status = Ticket.Statuses.Open.ToString(),
                     Priority = Ticket.Priorities.High.ToString(),
                     CreatedDate = DateTime.Now.AddHours(-2).AddMinutes(-33),
-                    CreatedByUserId = 4,
+                    CreatedBy = "Alberta Crocodile",
                     AssignedToUserId = 2
                 },
                 new Ticket
@@ -70,7 +65,7 @@ namespace ITHelpDeskApp.Models.ModelDataConfigurations
                     Status = Ticket.Statuses.Open.ToString(),
                     Priority = Ticket.Priorities.Medium.ToString(),
                     CreatedDate = DateTime.Now.AddDays(-1).AddHours(-3),
-                    CreatedByUserId = 3,
+                    CreatedBy = "John Doe",
                     AssignedToUserId = 1
                 }
             );
