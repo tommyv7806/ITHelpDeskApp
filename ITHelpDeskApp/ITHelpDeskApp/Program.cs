@@ -1,7 +1,22 @@
+using ITHelpDeskApp.Models;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Make URLs lowercase and end with a trailing slash
+builder.Services.AddRouting(options =>
+{
+    options.LowercaseUrls = true;
+    options.AppendTrailingSlash = true;
+});
+
+// Add EF Core Dependency Injection
+builder.Services.AddDbContext<HelpDeskContext>(options =>
+options.UseSqlServer(
+    builder.Configuration.GetConnectionString("HelpDeskContext")));
 
 var app = builder.Build();
 
