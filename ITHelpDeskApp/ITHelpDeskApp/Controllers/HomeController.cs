@@ -24,11 +24,18 @@ namespace ITHelpDeskApp.Controllers
             }
 
             // Then, check if logged in user has IsItUser bool set to true
-            // If yes, then direct user to IT User Summary page
-            // If no, then direct user to non-IT User Summary page
+            var loggedInUsername = HttpContext.Session.GetString("LoggedInUsername")?.ToLower();
 
-            var tickets = GetTickets();
-            return View(tickets);
+            var loggedInUser = GetUsers().Where(u => u.Username.ToLower() == loggedInUsername).FirstOrDefault();
+
+            // If yes, then direct user to IT User Summary page
+            if (loggedInUser.IsItUser)
+            {
+                return RedirectToAction("ItUserSummaryPage");
+            }
+
+            // If no, then direct user to non-IT User Summary page]
+            return RedirectToAction("NonItUserSummaryPage");
         }
 
         [HttpGet]
@@ -61,6 +68,18 @@ namespace ITHelpDeskApp.Controllers
             // Set the logged in user in tempdata
             HttpContext.Session.SetString("LoggedInUsername", userWithMatchingUsername.Username);
             return RedirectToAction("Index");
+        }
+
+        public IActionResult ItUserSummaryPage()
+        {
+            var tickets = GetTickets();
+            return View(tickets);
+        }
+
+        public IActionResult NonItUserSummaryPage()
+        {
+            var tickets = GetTickets();
+            return View(tickets);
         }
 
         private IEnumerable<User> GetUsers()

@@ -1,0 +1,39 @@
+﻿@model List<Ticket>
+
+@{
+    ViewData["Title"] = "Non-IT User Ticket Summary Page";
+}
+
+<h2>Non IT User Page</h2>
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th class="col-1">Ticket Num</th>
+                <th class="col-2">Ticket Title</th>
+                <th class="col-3">Ticket Description</th>
+                <th class="col-1">Status</th>
+                <th class="col-1">Priority</th>
+                <th class="col-1">Created Date</th>
+                <th class="col-2">Created By</th>
+                <th class="col-1">Assigned To</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var ticket in Model)
+            {
+                <tr>
+                    <td>@ticket.TicketNum</td>
+                    <td>@ticket.TicketTitle</td>
+                    <td>@ticket.TicketDescription</td>
+                    <td>@ticket.Status</td>
+                    <td>@ticket.Priority</td>
+                    <td>@ticket.CreatedDate.Value.ToShortDateString()</td>
+                    <td>@ticket.CreatedBy</td>
+                    <td>@ticket.AssignedToUser.FirstName @ticket.AssignedToUser.LastName</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
