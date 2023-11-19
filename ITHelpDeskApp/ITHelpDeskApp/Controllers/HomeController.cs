@@ -1,20 +1,20 @@
 ﻿using ITHelpDeskApp.Models;
+using ITHelpDeskApp.Models.Repository;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
 
 namespace ITHelpDeskApp.Controllers
 {
     public class HomeController : Controller
     {
         // Private variables for storing the different model repositories
-        //private Repository<User> userData { get; set; }
-        //private Repository<Ticket> ticketData { get; set; }
+        private Repository<User> userData { get; set; }
+        private Repository<Ticket> ticketData { get; set; }
 
-        //public HomeController(HelpDeskContext ctx)
-        //{
-        //    userData = new Repository<User>(ctx);
-        //    ticketData = new Repository<Ticket>(ctx);
-        //}
+        public HomeController(HelpDeskContext ctx)
+        {
+            userData = new Repository<User>(ctx);
+            ticketData = new Repository<Ticket>(ctx);
+        }
         public IActionResult Index()
         {
             // Check if Users.Any(IsLoggedInUser == true)
