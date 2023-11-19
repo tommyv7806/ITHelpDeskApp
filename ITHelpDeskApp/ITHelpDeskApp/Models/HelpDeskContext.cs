@@ -1,6 +1,5 @@
 ﻿using ITHelpDeskApp.Models.ModelDataConfigurations;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
 
 namespace ITHelpDeskApp.Models
 {

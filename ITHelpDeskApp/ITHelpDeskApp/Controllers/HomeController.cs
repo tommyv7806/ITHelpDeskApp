@@ -18,10 +18,59 @@ namespace ITHelpDeskApp.Controllers
         public IActionResult Index()
         {
             // Check if Users.Any(IsLoggedInUser == true)
-                // Then, check if logged in user has IsItUser bool set to true
-                    // If yes, then direct user to IT User Summary page
-                    // If no, then direct user to non-IT User Summary page
+            if (HttpContext.Session.GetString("LoggedInUsername") == null)
+            {
+                return RedirectToAction("LoginPage");
+            }
+
+            // Then, check if logged in user has IsItUser bool set to true
+            // If yes, then direct user to IT User Summary page
+            // If no, then direct user to non-IT User Summary page
+
+            var tickets = GetTickets();
+            return View(tickets);
+        }
+
+        [HttpGet]
+        public IActionResult LoginPage()
+        {
+            ViewData["ErrorMessage"] = TempData["ErrorMessage"];
+            TempData.Remove("ErrorMessage");
             return View();
+        }
+
+        [HttpPost]
+        public RedirectToActionResult ValidateLogin(LoginUser loginUser)
+        {
+            var userWithMatchingUsername = GetUsers().Where(u => u.Username.ToLower().Equals(loginUser.Username.ToLower())).FirstOrDefault();
+
+            if (userWithMatchingUsername == null)
+            {
+                // Add error message to tempdata that no matching username was found
+                TempData["ErrorMessage"] = "No matching username found";
+                return RedirectToAction("LoginPage");
+            }
+
+            if (!userWithMatchingUsername.Password.Equals(loginUser.Password)) 
+            {
+                // Add error to tempdata that password is incorrect
+                TempData["ErrorMessage"] = "Incorrect password";
+                return RedirectToAction("LoginPage");
+            }
+
+            // Set the logged in user in tempdata
+            HttpContext.Session.SetString("LoggedInUsername", userWithMatchingUsername.Username);
+            return RedirectToAction("Index");
+        }
+
+        private IEnumerable<User> GetUsers()
+        {
+            return userData.List(new QueryOptions<User> { OrderBy = u => u.UserId });
+        }
+
+        private IEnumerable<Ticket> GetTickets()
+        {
+            return ticketData.List(new QueryOptions<Ticket> { OrderBy = t => t.TicketId, Includes = "AssignedToUser" });
         }
     }
 }
