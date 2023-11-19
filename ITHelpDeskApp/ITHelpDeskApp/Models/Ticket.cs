@@ -14,14 +14,20 @@ namespace ITHelpDeskApp.Models
         [Required(ErrorMessage = "Ticket Description is required")]
         public string TicketDescription { get; set; } = string.Empty;
         public string Status { get; set; } = string.Empty;
-        public DateTime? CreatedDate { get; set; }
+        public enum Statuses
+        {
+            Open,
+            Closed
+        }
         public string Priority { get; set; } = string.Empty;
-        enum Priorities
+        public enum Priorities
         {
             Low,
             Medium,
             High
         }
+        public DateTime? CreatedDate { get; set; }
+        public DateTime? ClosedDate { get; set; }
 
         // Foreign key references
         public int CreatedByUserId { get; set; }

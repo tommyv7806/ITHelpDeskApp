@@ -5,7 +5,7 @@ namespace ITHelpDeskApp.Models
 {
     public class User
     {
-        public User() => Tickets = new HashSet<Ticket>();
+        public User() => Tickets = new List<Ticket>();
         public int UserId { get; set; }
 
         [Required(ErrorMessage = "Username is required")]
@@ -21,10 +21,18 @@ namespace ITHelpDeskApp.Models
         public string LastName { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Department is required")]
-        public string Department { get; set; } = string.Empty;
         public bool IsItUser { get; set; } = false;
         public bool IsLoggedInuser { get; set; } = false;
-
+        public string Department { get; set; } = string.Empty;
+        public enum Departments
+        {
+            IT,
+            Sales,
+            Accounting,
+            Support,
+            Development
+        }
+       
         [ValidateNever]
         public ICollection<Ticket> Tickets { get; set; }
     }
