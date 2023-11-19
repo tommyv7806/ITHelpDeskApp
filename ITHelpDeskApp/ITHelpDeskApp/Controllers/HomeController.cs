@@ -24,9 +24,7 @@ namespace ITHelpDeskApp.Controllers
             }
 
             // Then, check if logged in user has IsItUser bool set to true
-            var loggedInUsername = HttpContext.Session.GetString("LoggedInUsername")?.ToLower();
-
-            var loggedInUser = GetUsers().Where(u => u.Username.ToLower() == loggedInUsername).FirstOrDefault();
+            var loggedInUser = GetLoggedInUser();
 
             // If yes, then direct user to IT User Summary page
             if (loggedInUser.IsItUser)
@@ -72,12 +70,14 @@ namespace ITHelpDeskApp.Controllers
 
         public IActionResult ItUserSummaryPage()
         {
+            ViewData["LoggedInFirstName"] = GetLoggedInUser()?.FirstName;
             var tickets = GetTickets();
             return View(tickets);
         }
 
         public IActionResult NonItUserSummaryPage()
         {
+            ViewData["LoggedInFirstName"] = GetLoggedInUser()?.FirstName;
             var tickets = GetTickets();
             return View(tickets);
         }
@@ -90,6 +90,17 @@ namespace ITHelpDeskApp.Controllers
         private IEnumerable<Ticket> GetTickets()
         {
             return ticketData.List(new QueryOptions<Ticket> { OrderBy = t => t.TicketId, Includes = "AssignedToUser" });
+        }
+
+        private User GetLoggedInUser()
+        {
+            var loggedInUsername = HttpContext.Session.GetString("LoggedInUsername")?.ToLower();
+
+            var loggedInUser = GetUsers().Where(u => u.Username.ToLower() == loggedInUsername).FirstOrDefault();
+            if (loggedInUser != null) 
+                return loggedInUser;
+
+            return null;
         }
     }
 }
