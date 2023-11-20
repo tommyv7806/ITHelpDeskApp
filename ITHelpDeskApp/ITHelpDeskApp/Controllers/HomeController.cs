@@ -78,7 +78,14 @@ namespace ITHelpDeskApp.Controllers
         public IActionResult NonItUserSummaryPage()
         {
             ViewData["LoggedInFirstName"] = GetLoggedInUser()?.FirstName;
-            var tickets = GetTickets();
+
+            // Only want to get the tickets that were created by the logged in non-IT User
+            var tickets = ticketData.List(new QueryOptions<Ticket>{ 
+                Where = t => t.CreatedBy.ToLower() == GetLoggedInUserFullName().ToLower(),
+                OrderBy = t => t.TicketId,
+                Includes = "AssignedToUser"
+            }).ToList();
+
             return View(tickets);
         }
 
@@ -101,6 +108,13 @@ namespace ITHelpDeskApp.Controllers
                 return loggedInUser;
 
             return null;
+        }
+
+        private string GetLoggedInUserFullName()
+        {
+            var firstName = GetLoggedInUser()?.FirstName;
+            var lastName = GetLoggedInUser()?.LastName;
+            return $"{firstName} {lastName}";
         }
     }
 }
