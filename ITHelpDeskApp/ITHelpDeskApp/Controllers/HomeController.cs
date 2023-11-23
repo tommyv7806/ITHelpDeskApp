@@ -116,6 +116,19 @@ namespace ITHelpDeskApp.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpGet]
+        public RedirectToActionResult AssignTicket(int ticketId)
+        {
+            var ticket = ticketData.Get(ticketId);
+
+            ticket.AssignedToName = GetLoggedInUserFullName();
+
+            ticketData.Update(ticket);
+            ticketData.Save();
+
+            return RedirectToAction("Index");
+        }
+
         private IEnumerable<User> GetUsers()
         {
             return userData.List(new QueryOptions<User> { OrderBy = u => u.UserId });
