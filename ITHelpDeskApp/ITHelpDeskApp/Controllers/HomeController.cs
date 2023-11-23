@@ -9,11 +9,13 @@ namespace ITHelpDeskApp.Controllers
         // Private variables for storing the different model repositories
         private Repository<User> userData { get; set; }
         private Repository<Ticket> ticketData { get; set; }
+        private Ticket ticketModel;
 
         public HomeController(HelpDeskContext ctx)
         {
             userData = new Repository<User>(ctx);
             ticketData = new Repository<Ticket>(ctx);
+            ticketModel = new Ticket();
         }
         public IActionResult Index()
         {
@@ -82,11 +84,32 @@ namespace ITHelpDeskApp.Controllers
             // Only want to get the tickets that were created by the logged in non-IT User
             var tickets = ticketData.List(new QueryOptions<Ticket>{ 
                 Where = t => t.CreatedBy.ToLower() == GetLoggedInUserFullName().ToLower(),
-                OrderBy = t => t.TicketId,
-                Includes = "AssignedToUser"
+                OrderBy = t => t.TicketId
             }).ToList();
 
             return View(tickets);
+        }
+
+        [HttpGet]
+        public IActionResult CreateNewTicket()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public RedirectToActionResult SaveNewTicket(Ticket ticket)
+        {
+            var tickets = GetTickets().ToList();
+            ticket.TicketNum = ticketModel.CalculateTicketNum(tickets);
+
+            ticket.CreatedBy = GetLoggedInUserFullName();
+            ticket.Status = Ticket.Statuses.Open.ToString();
+            ticket.AssignedToName = "Unassigned";
+            
+            ticketData.Insert(ticket);
+            ticketData.Save();
+
+            return RedirectToAction("Index");
         }
 
         private IEnumerable<User> GetUsers()
@@ -96,7 +119,7 @@ namespace ITHelpDeskApp.Controllers
 
         private IEnumerable<Ticket> GetTickets()
         {
-            return ticketData.List(new QueryOptions<Ticket> { OrderBy = t => t.TicketId, Includes = "AssignedToUser" });
+            return ticketData.List(new QueryOptions<Ticket> { OrderBy = t => t.TicketId });
         }
 
         private User GetLoggedInUser()

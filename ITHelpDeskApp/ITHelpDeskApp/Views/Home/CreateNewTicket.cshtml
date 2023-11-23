@@ -1,0 +1,36 @@
+﻿@model Ticket
+
+@{ ViewData["Title"] = "Create a New Ticket Page"; }
+
+<form asp-action="SaveNewTicket" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label asp-for="TicketTitle" class="form-label">Title</label>
+        <input asp-for="TicketTitle" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="TicketDescription" class="form-label">Description</label>
+        <textarea asp-for="TicketDescription" class="form-control" rows="3"></textarea>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Priority" class="form-label">Priority</label>
+        <select asp-for="Priority" class="form-select">
+            @foreach (string priority in Enum.GetNames(typeof(Ticket.Priorities)))
+            {
+                <option>@priority</option>
+            }
+        </select>
+    </div>
+
+    <!-- Programmatically get the current date time value and store it in the DateAdded property -->
+    @{
+        var dateAdded = DateTime.Now.ToString("MM/dd/yyyy hh:mm tt");
+        <input type="hidden" asp-for="CreatedDate" value="@dateAdded" />
+    }
+
+    <a asp-controller="Home" asp-action="Index" class="btn btn-dark">Cancel</a>
+    <button type="submit" class="btn btn-dark">Create</button>
+</form>

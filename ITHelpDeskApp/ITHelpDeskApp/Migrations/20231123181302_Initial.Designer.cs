@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ITHelpDeskApp.Migrations
 {
     [DbContext(typeof(HelpDeskContext))]
-    [Migration("20231119052910_Initial")]
+    [Migration("20231123181302_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,8 +32,9 @@ namespace ITHelpDeskApp.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TicketId"), 1L, 1);
 
-                    b.Property<int>("AssignedToUserId")
-                        .HasColumnType("int");
+                    b.Property<string>("AssignedToName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("ClosedDate")
                         .HasColumnType("datetime2");
@@ -64,9 +65,12 @@ namespace ITHelpDeskApp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("TicketId");
 
-                    b.HasIndex("AssignedToUserId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Tickets");
 
@@ -74,10 +78,10 @@ namespace ITHelpDeskApp.Migrations
                         new
                         {
                             TicketId = 1,
-                            AssignedToUserId = 1,
-                            ClosedDate = new DateTime(2023, 10, 24, 4, 6, 10, 402, DateTimeKind.Local).AddTicks(1906),
+                            AssignedToName = "Sally Smith",
+                            ClosedDate = new DateTime(2023, 10, 28, 16, 50, 2, 262, DateTimeKind.Local).AddTicks(9217),
                             CreatedBy = "Alberta Crocodile",
-                            CreatedDate = new DateTime(2023, 10, 17, 0, 29, 10, 402, DateTimeKind.Local).AddTicks(1878),
+                            CreatedDate = new DateTime(2023, 10, 21, 13, 13, 2, 262, DateTimeKind.Local).AddTicks(9189),
                             Priority = "Medium",
                             Status = "Closed",
                             TicketDescription = "The light on the tower turns on, but nothing ever shows up on the monitor. The monitor is on. Please help.",
@@ -87,10 +91,10 @@ namespace ITHelpDeskApp.Migrations
                         new
                         {
                             TicketId = 2,
-                            AssignedToUserId = 2,
-                            ClosedDate = new DateTime(2023, 10, 30, 2, 17, 10, 402, DateTimeKind.Local).AddTicks(1913),
+                            AssignedToName = "Albert Gator",
+                            ClosedDate = new DateTime(2023, 11, 3, 15, 1, 2, 262, DateTimeKind.Local).AddTicks(9250),
                             CreatedBy = "John Doe",
-                            CreatedDate = new DateTime(2023, 10, 28, 0, 29, 10, 402, DateTimeKind.Local).AddTicks(1911),
+                            CreatedDate = new DateTime(2023, 11, 1, 13, 13, 2, 262, DateTimeKind.Local).AddTicks(9248),
                             Priority = "Low",
                             Status = "Closed",
                             TicketDescription = "On Friday, I was able to connect to the Accounting server; however, now when I try to connect I receive a 'cannot connect to server' error message.",
@@ -100,9 +104,9 @@ namespace ITHelpDeskApp.Migrations
                         new
                         {
                             TicketId = 3,
-                            AssignedToUserId = 2,
+                            AssignedToName = "Albert Gator",
                             CreatedBy = "Alberta Crocodile",
-                            CreatedDate = new DateTime(2023, 11, 18, 21, 56, 10, 402, DateTimeKind.Local).AddTicks(1916),
+                            CreatedDate = new DateTime(2023, 11, 23, 10, 40, 2, 262, DateTimeKind.Local).AddTicks(9254),
                             Priority = "High",
                             Status = "Open",
                             TicketDescription = "Receiving a '404 error' on every webpage. This is an urgent request.",
@@ -112,9 +116,9 @@ namespace ITHelpDeskApp.Migrations
                         new
                         {
                             TicketId = 4,
-                            AssignedToUserId = 1,
+                            AssignedToName = "Sally Smith",
                             CreatedBy = "John Doe",
-                            CreatedDate = new DateTime(2023, 11, 17, 21, 29, 10, 402, DateTimeKind.Local).AddTicks(1919),
+                            CreatedDate = new DateTime(2023, 11, 22, 10, 13, 2, 262, DateTimeKind.Local).AddTicks(9257),
                             Priority = "Medium",
                             Status = "Open",
                             TicketDescription = "Hello, this is a request to purchase 2 licenses for Quickbooks Enterprise 2023. These licenses will be for the new hires starting next week.",
@@ -210,13 +214,9 @@ namespace ITHelpDeskApp.Migrations
 
             modelBuilder.Entity("ITHelpDeskApp.Models.Ticket", b =>
                 {
-                    b.HasOne("ITHelpDeskApp.Models.User", "AssignedToUser")
+                    b.HasOne("ITHelpDeskApp.Models.User", null)
                         .WithMany("Tickets")
-                        .HasForeignKey("AssignedToUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AssignedToUser");
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("ITHelpDeskApp.Models.User", b =>

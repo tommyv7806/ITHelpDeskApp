@@ -31,9 +31,15 @@ namespace ITHelpDeskApp.Models
         public DateTime? ClosedDate { get; set; }
 
         // Foreign key references
-        public int AssignedToUserId { get; set; }
-        [ValidateNever]
-        public User? AssignedToUser { get; set; } = null;
+        public string AssignedToName { get; set; } = string.Empty;
+
+        public int CalculateTicketNum(List<Ticket> tickets)
+        {
+            var orderedTickets = tickets.OrderByDescending(t => t.TicketNum).ToList();
+            var highestCurrentTicketNum = orderedTickets.First().TicketNum;
+
+            return ++highestCurrentTicketNum;
+        }
         
         
     }

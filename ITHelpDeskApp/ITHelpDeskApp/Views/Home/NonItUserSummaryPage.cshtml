@@ -6,6 +6,10 @@
 
 <h2>Non IT User Page</h2>
 <div class="text-center">
+    <div>
+        <h3>My Tickets</h3>                    
+        <a asp-controller="Home" asp-action="CreateNewTicket" class="btn btn-primary">Create New</a>
+    </div>
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
@@ -30,7 +34,7 @@
                     <td>@ticket.Priority</td>
                     <td>@ticket.CreatedDate.Value.ToShortDateString()</td>
                     <td>@ticket.CreatedBy</td>
-                    <td>@ticket.AssignedToUser.FirstName @ticket.AssignedToUser.LastName</td>
+                    <td>@ticket.AssignedToName</td>
                 </tr>
             }
         </tbody>

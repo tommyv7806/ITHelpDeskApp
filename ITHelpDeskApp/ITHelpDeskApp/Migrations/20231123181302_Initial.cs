@@ -42,17 +42,28 @@ namespace ITHelpDeskApp.Migrations
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ClosedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    AssignedToUserId = table.Column<int>(type: "int", nullable: false)
+                    AssignedToName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Tickets", x => x.TicketId);
                     table.ForeignKey(
-                        name: "FK_Tickets_Users_AssignedToUserId",
-                        column: x => x.AssignedToUserId,
+                        name: "FK_Tickets_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "UserId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "UserId");
+                });
+
+            migrationBuilder.InsertData(
+                table: "Tickets",
+                columns: new[] { "TicketId", "AssignedToName", "ClosedDate", "CreatedBy", "CreatedDate", "Priority", "Status", "TicketDescription", "TicketNum", "TicketTitle", "UserId" },
+                values: new object[,]
+                {
+                    { 1, "Sally Smith", new DateTime(2023, 10, 28, 16, 50, 2, 262, DateTimeKind.Local).AddTicks(9217), "Alberta Crocodile", new DateTime(2023, 10, 21, 13, 13, 2, 262, DateTimeKind.Local).AddTicks(9189), "Medium", "Closed", "The light on the tower turns on, but nothing ever shows up on the monitor. The monitor is on. Please help.", 100, "Desktop won't turn on", null },
+                    { 2, "Albert Gator", new DateTime(2023, 11, 3, 15, 1, 2, 262, DateTimeKind.Local).AddTicks(9250), "John Doe", new DateTime(2023, 11, 1, 13, 13, 2, 262, DateTimeKind.Local).AddTicks(9248), "Low", "Closed", "On Friday, I was able to connect to the Accounting server; however, now when I try to connect I receive a 'cannot connect to server' error message.", 101, "Can't connect to internal Accounting server", null },
+                    { 3, "Albert Gator", null, "Alberta Crocodile", new DateTime(2023, 11, 23, 10, 40, 2, 262, DateTimeKind.Local).AddTicks(9254), "High", "Open", "Receiving a '404 error' on every webpage. This is an urgent request.", 101, "Can't connect to Internet", null },
+                    { 4, "Sally Smith", null, "John Doe", new DateTime(2023, 11, 22, 10, 13, 2, 262, DateTimeKind.Local).AddTicks(9257), "Medium", "Open", "Hello, this is a request to purchase 2 licenses for Quickbooks Enterprise 2023. These licenses will be for the new hires starting next week.", 101, "Request for new Quickbooks licenses", null }
                 });
 
             migrationBuilder.InsertData(
@@ -66,21 +77,10 @@ namespace ITHelpDeskApp.Migrations
                     { 4, "Support", "Alberta", false, false, "Crocodile", "NonItPassword2", "NonItUser2" }
                 });
 
-            migrationBuilder.InsertData(
-                table: "Tickets",
-                columns: new[] { "TicketId", "AssignedToUserId", "ClosedDate", "CreatedBy", "CreatedDate", "Priority", "Status", "TicketDescription", "TicketNum", "TicketTitle" },
-                values: new object[,]
-                {
-                    { 1, 1, new DateTime(2023, 10, 24, 4, 6, 10, 402, DateTimeKind.Local).AddTicks(1906), "Alberta Crocodile", new DateTime(2023, 10, 17, 0, 29, 10, 402, DateTimeKind.Local).AddTicks(1878), "Medium", "Closed", "The light on the tower turns on, but nothing ever shows up on the monitor. The monitor is on. Please help.", 100, "Desktop won't turn on" },
-                    { 2, 2, new DateTime(2023, 10, 30, 2, 17, 10, 402, DateTimeKind.Local).AddTicks(1913), "John Doe", new DateTime(2023, 10, 28, 0, 29, 10, 402, DateTimeKind.Local).AddTicks(1911), "Low", "Closed", "On Friday, I was able to connect to the Accounting server; however, now when I try to connect I receive a 'cannot connect to server' error message.", 101, "Can't connect to internal Accounting server" },
-                    { 3, 2, null, "Alberta Crocodile", new DateTime(2023, 11, 18, 21, 56, 10, 402, DateTimeKind.Local).AddTicks(1916), "High", "Open", "Receiving a '404 error' on every webpage. This is an urgent request.", 101, "Can't connect to Internet" },
-                    { 4, 1, null, "John Doe", new DateTime(2023, 11, 17, 21, 29, 10, 402, DateTimeKind.Local).AddTicks(1919), "Medium", "Open", "Hello, this is a request to purchase 2 licenses for Quickbooks Enterprise 2023. These licenses will be for the new hires starting next week.", 101, "Request for new Quickbooks licenses" }
-                });
-
             migrationBuilder.CreateIndex(
-                name: "IX_Tickets_AssignedToUserId",
+                name: "IX_Tickets_UserId",
                 table: "Tickets",
-                column: "AssignedToUserId");
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
