@@ -5,6 +5,50 @@
 }
 
 <h2>IT User Page</h2>
+<!-- Table of Unassigned Tickets -->
+
+@if (ViewBag.UnassignedTickets.Count > 0)
+{
+    <div class="text-center">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="col-1">Ticket Num</th>
+                    <th class="col-2">Ticket Title</th>
+                    <th class="col-3">Ticket Description</th>
+                    <th class="col-1">Priority</th>
+                    <th class="col-1">Created Date</th>
+                    <th class="col-2">Created By</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var ticket in ViewBag.UnassignedTickets)
+                {
+                    <tr>
+                        <td>@ticket.TicketNum</td>
+                        <td>@ticket.TicketTitle</td>
+                        <td>@ticket.TicketDescription</td>
+                        <td>@ticket.Priority</td>
+                        <td>@ticket.CreatedDate.ToShortDateString()</td>
+                        <td>@ticket.CreatedBy</td>
+                        <td><a asp-controller="Home" asp-action="DeleteTrip" asp-route-ticketId="@ticket.TicketId" class="btn btn-primary">Pick Up</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <div>
+        <h2>No Unassigned tickets to display</h2>
+    </div>
+}
+
+
+
+<!-- Table of all tickets -->
 <div class="text-center">
     <table class="table table-bordered table-striped">
         <thead>

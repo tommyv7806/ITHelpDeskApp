@@ -25,12 +25,6 @@
         </select>
     </div>
 
-    <!-- Programmatically get the current date time value and store it in the DateAdded property -->
-    @{
-        var dateAdded = DateTime.Now.ToString("MM/dd/yyyy hh:mm tt");
-        <input type="hidden" asp-for="CreatedDate" value="@dateAdded" />
-    }
-
     <a asp-controller="Home" asp-action="Index" class="btn btn-dark">Cancel</a>
     <button type="submit" class="btn btn-dark">Create</button>
 </form>

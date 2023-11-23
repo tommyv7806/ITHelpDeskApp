@@ -73,6 +73,9 @@ namespace ITHelpDeskApp.Controllers
         public IActionResult ItUserSummaryPage()
         {
             ViewData["LoggedInFirstName"] = GetLoggedInUser()?.FirstName;
+            ViewBag.UnassignedTickets = ticketData.List(new QueryOptions<Ticket> 
+                { Where = t => t.AssignedToName.Equals("Unassigned") });
+
             var tickets = GetTickets();
             return View(tickets);
         }
@@ -105,6 +108,7 @@ namespace ITHelpDeskApp.Controllers
             ticket.CreatedBy = GetLoggedInUserFullName();
             ticket.Status = Ticket.Statuses.Open.ToString();
             ticket.AssignedToName = "Unassigned";
+            ticket.CreatedDate = DateTime.Now;
             
             ticketData.Insert(ticket);
             ticketData.Save();
