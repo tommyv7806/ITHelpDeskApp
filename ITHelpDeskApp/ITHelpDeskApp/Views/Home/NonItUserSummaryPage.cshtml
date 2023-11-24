@@ -28,7 +28,7 @@
             {
                 <tr>
                     <td>@ticket.TicketNum</td>
-                    <td><a href="#ticketSummaryModal" data-bs-toggle="modal">@ticket.TicketTitle</a></td>
+                    <td><a asp-controller="Home" asp-action="TicketSummary" asp-route-ticketId="@ticket.TicketId" class="">@ticket.TicketTitle</a></td>
                     <td>@ticket.TicketDescription</td>
                     <td>@ticket.Status</td>
                     <td>@ticket.Priority</td>
@@ -36,10 +36,6 @@
                     <td>@ticket.CreatedBy</td>
                     <td>@ticket.AssignedToName</td>
                 </tr>
-
-                <div class="modal fade" id="ticketSummaryModal" tabindex="-1" aria-hidden="true">
-                    <partial name="_ticketSummary" model="@ticket" />
-                </div>
             }
         </tbody>
     </table>

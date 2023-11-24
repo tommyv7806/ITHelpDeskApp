@@ -13,6 +13,8 @@ namespace ITHelpDeskApp.Models
 
         [Required(ErrorMessage = "Ticket Description is required")]
         public string TicketDescription { get; set; } = string.Empty;
+        public string ResolutionSummary { get; set; } = string.Empty;
+
         public string Status { get; set; } = string.Empty;
         public enum Statuses
         {

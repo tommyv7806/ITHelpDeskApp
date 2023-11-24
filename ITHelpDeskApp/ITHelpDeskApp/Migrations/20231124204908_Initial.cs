@@ -37,6 +37,7 @@ namespace ITHelpDeskApp.Migrations
                     TicketNum = table.Column<int>(type: "int", nullable: false),
                     TicketTitle = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TicketDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ResolutionSummary = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Priority = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -57,13 +58,13 @@ namespace ITHelpDeskApp.Migrations
 
             migrationBuilder.InsertData(
                 table: "Tickets",
-                columns: new[] { "TicketId", "AssignedToName", "ClosedDate", "CreatedBy", "CreatedDate", "Priority", "Status", "TicketDescription", "TicketNum", "TicketTitle", "UserId" },
+                columns: new[] { "TicketId", "AssignedToName", "ClosedDate", "CreatedBy", "CreatedDate", "Priority", "ResolutionSummary", "Status", "TicketDescription", "TicketNum", "TicketTitle", "UserId" },
                 values: new object[,]
                 {
-                    { 1, "Sally Smith", new DateTime(2023, 10, 28, 16, 50, 2, 262, DateTimeKind.Local).AddTicks(9217), "Alberta Crocodile", new DateTime(2023, 10, 21, 13, 13, 2, 262, DateTimeKind.Local).AddTicks(9189), "Medium", "Closed", "The light on the tower turns on, but nothing ever shows up on the monitor. The monitor is on. Please help.", 100, "Desktop won't turn on", null },
-                    { 2, "Albert Gator", new DateTime(2023, 11, 3, 15, 1, 2, 262, DateTimeKind.Local).AddTicks(9250), "John Doe", new DateTime(2023, 11, 1, 13, 13, 2, 262, DateTimeKind.Local).AddTicks(9248), "Low", "Closed", "On Friday, I was able to connect to the Accounting server; however, now when I try to connect I receive a 'cannot connect to server' error message.", 101, "Can't connect to internal Accounting server", null },
-                    { 3, "Albert Gator", null, "Alberta Crocodile", new DateTime(2023, 11, 23, 10, 40, 2, 262, DateTimeKind.Local).AddTicks(9254), "High", "Open", "Receiving a '404 error' on every webpage. This is an urgent request.", 101, "Can't connect to Internet", null },
-                    { 4, "Sally Smith", null, "John Doe", new DateTime(2023, 11, 22, 10, 13, 2, 262, DateTimeKind.Local).AddTicks(9257), "Medium", "Open", "Hello, this is a request to purchase 2 licenses for Quickbooks Enterprise 2023. These licenses will be for the new hires starting next week.", 101, "Request for new Quickbooks licenses", null }
+                    { 1, "Sally Smith", new DateTime(2023, 10, 29, 19, 26, 8, 281, DateTimeKind.Local).AddTicks(3551), "Alberta Crocodile", new DateTime(2023, 10, 22, 15, 49, 8, 281, DateTimeKind.Local).AddTicks(3522), "Medium", "HDMI cable that connected the monitor to the PC was busted. Replaced it with a new one.", "Closed", "The light on the tower turns on, but nothing ever shows up on the monitor. The monitor is on. Please help.", 100, "Desktop won't turn on", null },
+                    { 2, "Albert Gator", new DateTime(2023, 11, 4, 17, 37, 8, 281, DateTimeKind.Local).AddTicks(3557), "John Doe", new DateTime(2023, 11, 2, 15, 49, 8, 281, DateTimeKind.Local).AddTicks(3555), "Low", "User was not connected to VPN. Once connected, the issue was resolved.", "Closed", "On Friday, I was able to connect to the Accounting server; however, now when I try to connect I receive a 'cannot connect to server' error message.", 101, "Can't connect to internal Accounting server", null },
+                    { 3, "Albert Gator", null, "Alberta Crocodile", new DateTime(2023, 11, 24, 13, 16, 8, 281, DateTimeKind.Local).AddTicks(3561), "High", "", "Open", "Receiving a '404 error' on every webpage. This is an urgent request.", 101, "Can't connect to Internet", null },
+                    { 4, "Sally Smith", null, "John Doe", new DateTime(2023, 11, 23, 12, 49, 8, 281, DateTimeKind.Local).AddTicks(3564), "Medium", "", "Open", "Hello, this is a request to purchase 2 licenses for Quickbooks Enterprise 2023. These licenses will be for the new hires starting next week.", 101, "Request for new Quickbooks licenses", null }
                 });
 
             migrationBuilder.InsertData(

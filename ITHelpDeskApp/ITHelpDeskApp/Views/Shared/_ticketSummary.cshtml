@@ -16,11 +16,18 @@
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             @{
                 bool isItUser = ViewBag.IsItUser;
-                if (isItUser)
+                if (isItUser && Model.Status.Equals("Open"))
                 {
-                    <p><a asp-controller="Home" asp-action="CloseTicket" asp-route-ticketId="@Model.TicketId" class="btn btn-primary">Close Ticket</a></p>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ticketResolutionModal">
+                        Close Ticket
+                    </button>
                 }
             }
         </div>
     </div>
 </div>
+
+<div class="modal-xl fade" id="ticketResolutionModal" tabindex="-1" aria-hidden="true">
+    <partial name="_enterTicketResolution" model="@Model" />
+</div>
+

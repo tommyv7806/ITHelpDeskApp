@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ITHelpDeskApp.Migrations
 {
     [DbContext(typeof(HelpDeskContext))]
-    [Migration("20231123181302_Initial")]
+    [Migration("20231124204908_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,6 +50,10 @@ namespace ITHelpDeskApp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ResolutionSummary")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -79,10 +83,11 @@ namespace ITHelpDeskApp.Migrations
                         {
                             TicketId = 1,
                             AssignedToName = "Sally Smith",
-                            ClosedDate = new DateTime(2023, 10, 28, 16, 50, 2, 262, DateTimeKind.Local).AddTicks(9217),
+                            ClosedDate = new DateTime(2023, 10, 29, 19, 26, 8, 281, DateTimeKind.Local).AddTicks(3551),
                             CreatedBy = "Alberta Crocodile",
-                            CreatedDate = new DateTime(2023, 10, 21, 13, 13, 2, 262, DateTimeKind.Local).AddTicks(9189),
+                            CreatedDate = new DateTime(2023, 10, 22, 15, 49, 8, 281, DateTimeKind.Local).AddTicks(3522),
                             Priority = "Medium",
+                            ResolutionSummary = "HDMI cable that connected the monitor to the PC was busted. Replaced it with a new one.",
                             Status = "Closed",
                             TicketDescription = "The light on the tower turns on, but nothing ever shows up on the monitor. The monitor is on. Please help.",
                             TicketNum = 100,
@@ -92,10 +97,11 @@ namespace ITHelpDeskApp.Migrations
                         {
                             TicketId = 2,
                             AssignedToName = "Albert Gator",
-                            ClosedDate = new DateTime(2023, 11, 3, 15, 1, 2, 262, DateTimeKind.Local).AddTicks(9250),
+                            ClosedDate = new DateTime(2023, 11, 4, 17, 37, 8, 281, DateTimeKind.Local).AddTicks(3557),
                             CreatedBy = "John Doe",
-                            CreatedDate = new DateTime(2023, 11, 1, 13, 13, 2, 262, DateTimeKind.Local).AddTicks(9248),
+                            CreatedDate = new DateTime(2023, 11, 2, 15, 49, 8, 281, DateTimeKind.Local).AddTicks(3555),
                             Priority = "Low",
+                            ResolutionSummary = "User was not connected to VPN. Once connected, the issue was resolved.",
                             Status = "Closed",
                             TicketDescription = "On Friday, I was able to connect to the Accounting server; however, now when I try to connect I receive a 'cannot connect to server' error message.",
                             TicketNum = 101,
@@ -106,8 +112,9 @@ namespace ITHelpDeskApp.Migrations
                             TicketId = 3,
                             AssignedToName = "Albert Gator",
                             CreatedBy = "Alberta Crocodile",
-                            CreatedDate = new DateTime(2023, 11, 23, 10, 40, 2, 262, DateTimeKind.Local).AddTicks(9254),
+                            CreatedDate = new DateTime(2023, 11, 24, 13, 16, 8, 281, DateTimeKind.Local).AddTicks(3561),
                             Priority = "High",
+                            ResolutionSummary = "",
                             Status = "Open",
                             TicketDescription = "Receiving a '404 error' on every webpage. This is an urgent request.",
                             TicketNum = 101,
@@ -118,8 +125,9 @@ namespace ITHelpDeskApp.Migrations
                             TicketId = 4,
                             AssignedToName = "Sally Smith",
                             CreatedBy = "John Doe",
-                            CreatedDate = new DateTime(2023, 11, 22, 10, 13, 2, 262, DateTimeKind.Local).AddTicks(9257),
+                            CreatedDate = new DateTime(2023, 11, 23, 12, 49, 8, 281, DateTimeKind.Local).AddTicks(3564),
                             Priority = "Medium",
+                            ResolutionSummary = "",
                             Status = "Open",
                             TicketDescription = "Hello, this is a request to purchase 2 licenses for Quickbooks Enterprise 2023. These licenses will be for the new hires starting next week.",
                             TicketNum = 101,

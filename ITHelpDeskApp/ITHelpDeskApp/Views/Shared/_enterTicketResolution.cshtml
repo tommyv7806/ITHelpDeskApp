@@ -1,0 +1,23 @@
+﻿@model Ticket
+
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Close Ticket #@Model.TicketNum</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <p>Title: @Model.TicketTitle</p>
+            <form asp-action="CloseTicket" method="post">
+                <div asp-validation-summary="All" class="text-danger"></div>
+
+                <div class="mb-2">
+                <label asp-for="ResolutionSummary" class="form-label">Resolution Summary:</label>
+                <textarea asp-for="ResolutionSummary" class="form-control" rows="3"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-dark">Close</button>
+            </form>
+        </div>
+    </div>
+</div>
