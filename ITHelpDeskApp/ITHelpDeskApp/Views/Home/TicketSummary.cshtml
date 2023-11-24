@@ -1,0 +1,31 @@
+﻿@model Ticket
+
+<div>
+    <div class="col-6">
+        @Model.TicketNum    @Model.Priority
+    </div>
+    <div>
+        <p>Title: @Model.TicketTitle</p>
+    </div>
+    <div>
+        <p>Description: @Model.TicketDescription</p>
+    </div>
+    <div>
+        <p>Submitted by: @Model.CreatedBy</p>
+    </div>
+    @if (Model.AssignedToName != "Unassigned")
+    {
+        <div>
+            <p>Assigned to: @Model.AssignedToName</p>
+        </div>
+    }
+    @{
+        bool isItUser = ViewBag.IsItUser;
+        if (isItUser)
+        {
+            <div>
+                <a asp-controller="Home" asp-action="CloseTicket" asp-route-ticketId="@Model.TicketId" class="btn btn-primary">Close Ticket</a>
+            </div>
+        }
+    }
+</div>

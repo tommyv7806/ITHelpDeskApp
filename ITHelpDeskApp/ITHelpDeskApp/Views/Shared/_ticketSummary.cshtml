@@ -1,0 +1,27 @@
+﻿@model Ticket
+
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">@Model.TicketNum</h5>
+            <h5 class="modal-title">@Model.Priority</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <p>Title: @Model.TicketTitle</p>
+            <p>Description: @Model.TicketDescription</p>
+            <p>Created by: @Model.CreatedBy</p>
+            <p>Assigned to: @Model.AssignedToName</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            @{
+                bool isItUser = ViewBag.IsItUser;
+                if (isItUser)
+                {
+                    <p><a asp-controller="Home" asp-action="CloseTicket" asp-route-ticketId="@Model.TicketId" class="btn btn-primary">Close Ticket</a></p>
+                }
+            }
+        </div>
+    </div>
+</div>

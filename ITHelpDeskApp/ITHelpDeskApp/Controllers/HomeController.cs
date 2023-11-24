@@ -73,6 +73,7 @@ namespace ITHelpDeskApp.Controllers
         public IActionResult ItUserSummaryPage()
         {
             ViewData["LoggedInFirstName"] = GetLoggedInUser()?.FirstName;
+            ViewBag.IsItUser = true;
             ViewBag.UnassignedTickets = ticketData.List(new QueryOptions<Ticket> 
                 { Where = t => t.AssignedToName.Equals("Unassigned") });
 
@@ -83,6 +84,7 @@ namespace ITHelpDeskApp.Controllers
         public IActionResult NonItUserSummaryPage()
         {
             ViewData["LoggedInFirstName"] = GetLoggedInUser()?.FirstName;
+            ViewBag.IsItUser = false;
 
             // Only want to get the tickets that were created by the logged in non-IT User
             var tickets = ticketData.List(new QueryOptions<Ticket>{ 
@@ -127,6 +129,23 @@ namespace ITHelpDeskApp.Controllers
             ticketData.Save();
 
             return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult TicketSummary(int ticketId)
+        {
+            var ticket = ticketData.Get(ticketId);
+            var currentUser = GetLoggedInUser();
+
+            if (currentUser.IsItUser)
+            {
+                ViewBag.IsItUser = true;
+                return View(ticket);
+            }
+
+            ViewBag.IsItUser = false;
+
+            return View(ticket);
         }
 
         private IEnumerable<User> GetUsers()
