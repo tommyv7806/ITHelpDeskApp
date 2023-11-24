@@ -35,7 +35,7 @@
                         <td><a asp-controller="Home" asp-action="AssignTicket" asp-route-ticketId="@ticket.TicketId" class="btn btn-primary">Pick Up</a></td>
                     </tr>
 
-                    <div class="modal fade" id="unassignedTicketSummaryModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="unassignedTicketSummaryModal" tabindex="-1" aria-hidden="true">
                         <partial name="_ticketSummary" model="@ticket" />
                     </div>
                 }
@@ -81,7 +81,7 @@ else
                     <td>@ticket.AssignedToName</td>
                 </tr>
 
-                <div class="modal fade" id="ticketSummaryModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal fade" id="ticketSummaryModal" tabindex="-1" aria-hidden="true">
                     <partial name="_ticketSummary" model="@ticket" />
                 </div>
             }
