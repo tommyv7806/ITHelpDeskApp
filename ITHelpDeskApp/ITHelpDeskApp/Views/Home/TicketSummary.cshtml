@@ -19,13 +19,31 @@
             <p>Assigned to: @Model.AssignedToName</p>
         </div>
     }
+
+    <!-- If the ticket is closed, display the Resolution Summary-->
+    @if (Model.ClosedDate != null)
+    {
+        <div>
+            <p>Resolution Summary: @Model.ResolutionSummary</p>
+        </div>
+    }
+
+    <div>
+        <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Ticket Overview</a>
+    </div>
+
+    <!-- If the current user is an IT user and the ticket is Open, display the 'Close Ticket' button-->
     @{
         bool isItUser = ViewBag.IsItUser;
-        if (isItUser)
+        if (isItUser && Model.ClosedDate == null)
         {
-            <div>
-                <a asp-controller="Home" asp-action="CloseTicket" asp-route-ticketId="@Model.TicketId" class="btn btn-primary">Close Ticket</a>
-            </div>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ticketResolutionModal">
+                Close Ticket
+            </button>
         }
     }
+</div>
+
+<div class="modal fade" id="ticketResolutionModal" tabindex="-1" aria-hidden="true">
+    <partial name="_enterTicketResolution" model="@Model" />
 </div>

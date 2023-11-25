@@ -16,6 +16,17 @@
                 <textarea asp-for="ResolutionSummary" class="form-control" rows="3"></textarea>
                 </div>
 
+                <input type="hidden" asp-for="TicketId" value="@Model.TicketId" />
+                <input type="hidden" asp-for="TicketTitle" value="@Model.TicketTitle" />
+                <input type="hidden" asp-for="TicketDescription" value="@Model.TicketDescription" />
+                <input type="hidden" asp-for="TicketNum" value="@Model.TicketNum" />
+                <input type="hidden" asp-for="AssignedToName" value="@Model.AssignedToName" />
+                <input type="hidden" asp-for="CreatedBy" value="@Model.CreatedBy" />
+                <input type="hidden" asp-for="CreatedDate" value="@Model.CreatedDate" />
+                <input type="hidden" asp-for="Priority" value="@Model.Priority" />
+                <input type="hidden" asp-for="Status" value="@Model.Status" />
+
+
                 <button type="submit" class="btn btn-dark">Close</button>
             </form>
         </div>

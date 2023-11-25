@@ -133,6 +133,8 @@ namespace ITHelpDeskApp.Controllers
         [HttpGet]
         public IActionResult TicketSummary(int ticketId)
         {
+            ViewData["LoggedInFirstName"] = GetLoggedInUser()?.FirstName;
+
             var ticket = ticketData.Get(ticketId);
             var currentUser = GetLoggedInUser();
             if (currentUser.IsItUser)
@@ -145,8 +147,14 @@ namespace ITHelpDeskApp.Controllers
         }
 
         [HttpPost]
-        public RedirectToActionResult CloseTicket(int ticketId)
+        public RedirectToActionResult CloseTicket(Ticket ticket)
         {
+            ticket.ClosedDate = DateTime.Now;
+            ticket.Status = Ticket.Statuses.Closed.ToString();
+
+            ticketData.Update(ticket);
+            ticketData.Save();
+
             return RedirectToAction("Index");
         }
 
