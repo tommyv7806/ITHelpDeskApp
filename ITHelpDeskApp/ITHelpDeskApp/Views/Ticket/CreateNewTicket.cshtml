@@ -2,7 +2,7 @@
 
 @{ ViewData["Title"] = "Create a New Ticket Page"; }
 
-<form asp-action="SaveNewTicket" method="post">
+<form asp-controller="Ticket" asp-action="SaveNewTicket" method="post">
     <div asp-validation-summary="All" class="text-danger"></div>
 
     <div class="mb-3">

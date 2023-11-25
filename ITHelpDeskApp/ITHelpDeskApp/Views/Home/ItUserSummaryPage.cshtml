@@ -27,12 +27,12 @@
                 {
                     <tr>
                         <td>@ticket.TicketNum</td>
-                        <td><a asp-controller="Home" asp-action="TicketSummary" asp-route-ticketId="@ticket.TicketId" class="">@ticket.TicketTitle</a></td>
+                        <td><a asp-controller="Ticket" asp-action="TicketSummary" asp-route-ticketId="@ticket.TicketId" class="">@ticket.TicketTitle</a></td>
                         <td>@ticket.TicketDescription</td>
                         <td>@ticket.Priority</td>
                         <td>@ticket.CreatedDate.ToShortDateString()</td>
                         <td>@ticket.CreatedBy</td>
-                        <td><a asp-controller="Home" asp-action="AssignTicket" asp-route-ticketId="@ticket.TicketId" class="btn btn-primary">Pick Up</a></td>
+                        <td><a asp-controller="Ticket" asp-action="AssignTicket" asp-route-ticketId="@ticket.TicketId" class="btn btn-primary">Pick Up</a></td>
                     </tr>
                 }
             </tbody>
@@ -68,7 +68,7 @@ else
             {
                 <tr>
                     <td>@ticket.TicketNum</td>
-                    <td><a asp-controller="Home" asp-action="TicketSummary" asp-route-ticketId="@ticket.TicketId" class="">@ticket.TicketTitle</a></td>
+                    <td><a asp-controller="Ticket" asp-action="TicketSummary" asp-route-ticketId="@ticket.TicketId" class="">@ticket.TicketTitle</a></td>
                     <td>@ticket.TicketDescription</td>
                     <td>@ticket.Status</td>
                     <td>@ticket.Priority</td>

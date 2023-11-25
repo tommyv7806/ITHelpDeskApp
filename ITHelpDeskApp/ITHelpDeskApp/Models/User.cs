@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+﻿using ITHelpDeskApp.Models.Repository;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
 
 namespace ITHelpDeskApp.Models
@@ -35,5 +36,25 @@ namespace ITHelpDeskApp.Models
        
         [ValidateNever]
         public ICollection<Ticket> Tickets { get; set; }
+
+        public User GetLoggedInUser(string loggedInUsername, List<User> users)
+        {
+            var loggedInUser = users.Where(u => u.Username.Equals(loggedInUsername)).FirstOrDefault();
+
+            if (loggedInUser != null)
+                return loggedInUser;
+
+            return null;
+        }
+
+        public string GetLoggedInUserFullName(string loggedInUsername, List<User> users)
+        {
+            var loggedInUser = GetLoggedInUser(loggedInUsername, users);
+
+            var firstName = loggedInUser?.FirstName;
+            var lastName = loggedInUser?.LastName;
+
+            return $"{firstName} {lastName}";
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using ITHelpDeskApp.Models;
 using ITHelpDeskApp.Models.Repository;
 using Microsoft.AspNetCore.Mvc;
+using System.Drawing.Printing;
 
 namespace ITHelpDeskApp.Controllers
 {
@@ -10,12 +11,21 @@ namespace ITHelpDeskApp.Controllers
         private Repository<User> userData { get; set; }
         private Repository<Ticket> ticketData { get; set; }
         private Ticket ticketModel;
+        private User userModel;
+
+        private string _loggedInUsername;
+        private string LoggedInUsername
+        {
+            get { return _loggedInUsername ?? GetLoggedInUsername(); }
+            set { _loggedInUsername = value; }
+        }
 
         public HomeController(HelpDeskContext ctx)
         {
             userData = new Repository<User>(ctx);
             ticketData = new Repository<Ticket>(ctx);
             ticketModel = new Ticket();
+            userModel = new User();
         }
         public RedirectToActionResult Index()
         {
@@ -101,90 +111,26 @@ namespace ITHelpDeskApp.Controllers
             return View(tickets);
         }
 
-        [HttpGet]
-        public IActionResult CreateNewTicket()
+        private string GetLoggedInUsername()
         {
-            return View();
-        }
+            var loggedInUsername = HttpContext.Session.GetString("LoggedInUsername");
 
-        [HttpPost]
-        public RedirectToActionResult SaveNewTicket(Ticket ticket)
-        {
-            var tickets = ticketData.GetAll();
-            ticket.TicketNum = ticketModel.CalculateTicketNum(tickets);
-
-            ticket.CreatedBy = GetLoggedInUserFullName();
-            ticket.Status = Ticket.Statuses.Open.ToString();
-            ticket.AssignedToName = "Unassigned";
-            ticket.CreatedDate = DateTime.Now;
-            
-            ticketData.Insert(ticket);
-            ticketData.Save();
-
-            return RedirectToAction("Index");
-        }
-
-        [HttpGet]
-        public RedirectToActionResult AssignTicket(int ticketId)
-        {
-            var ticket = ticketData.Get(ticketId);
-
-            ticket.AssignedToName = GetLoggedInUserFullName();
-
-            ticketData.Update(ticket);
-            ticketData.Save();
-
-            return RedirectToAction("Index");
-        }
-
-        [HttpGet]
-        public IActionResult TicketSummary(int ticketId)
-        {
-            ViewData["LoggedInFirstName"] = GetLoggedInUser()?.FirstName;
-
-            var ticket = ticketData.Get(ticketId);
-            var currentUser = GetLoggedInUser();
-            if (currentUser.IsItUser)
+            if (loggedInUsername == null)
             {
-                ViewBag.IsItUser = true;
-                return View(ticket);
+                throw new Exception("Cannot find username for logged in user");
             }
-            ViewBag.IsItUser = false;
-            return View(ticket);
-        }
 
-        [HttpPost]
-        public RedirectToActionResult CloseTicket(Ticket ticket)
-        {
-            ticket.ClosedDate = DateTime.Now;
-            ticket.Status = Ticket.Statuses.Closed.ToString();
-
-            ticketData.Update(ticket);
-            ticketData.Save();
-
-            return RedirectToAction("Index");
+            return loggedInUsername;
         }
 
         private User GetLoggedInUser()
         {
-            var loggedInUsername = HttpContext.Session.GetString("LoggedInUsername")?.ToLower();
-
-            var loggedInUser = userData.List(new QueryOptions<User>
-                { Where = u => u.Username.Equals(loggedInUsername) }).FirstOrDefault();
-
-            if (loggedInUser != null) 
-                return loggedInUser;
-
-            return null;
+            return userModel.GetLoggedInUser(LoggedInUsername, userData.GetAll());
         }
 
         private string GetLoggedInUserFullName()
         {
-            var loggedInUser = GetLoggedInUser();
-            var firstName = loggedInUser?.FirstName;
-            var lastName = loggedInUser?.LastName;
-
-            return $"{firstName} {lastName}";
+            return userModel.GetLoggedInUserFullName(LoggedInUsername, userData.GetAll());
         }
     }
 }
