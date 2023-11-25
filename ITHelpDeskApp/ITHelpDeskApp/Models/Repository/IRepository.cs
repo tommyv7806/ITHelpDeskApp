@@ -2,6 +2,7 @@
 {
     public interface IRepository<T> where T : class
     {
+        List<T> GetAll();
         IEnumerable<T> List(QueryOptions<T> options);
         T? Get(int id);
         void Insert(T entity);

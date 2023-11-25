@@ -12,6 +12,10 @@ namespace ITHelpDeskApp.Models.Repository
             dbset = context.Set<T>();
         }
 
+        public virtual List<T> GetAll()
+        {
+            return dbset.ToList();
+        }
         public virtual IEnumerable<T> List(QueryOptions<T> options)
         {
             IQueryable<T> query = dbset;
