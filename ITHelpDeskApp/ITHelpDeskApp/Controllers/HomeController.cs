@@ -55,7 +55,8 @@ namespace ITHelpDeskApp.Controllers
         [HttpPost]
         public RedirectToActionResult ValidateLogin(LoginUser loginUser)
         {
-            var userWithMatchingUsername = GetUsers().Where(u => u.Username.ToLower().Equals(loginUser.Username.ToLower())).FirstOrDefault();
+            var userWithMatchingUsername = userData.List(new QueryOptions<User>
+                { Where = u => u.Username.ToLower().Equals(loginUser.Username.ToLower()) }).FirstOrDefault();
 
             if (userWithMatchingUsername == null)
             {
@@ -83,7 +84,7 @@ namespace ITHelpDeskApp.Controllers
             ViewBag.UnassignedTickets = ticketData.List(new QueryOptions<Ticket> 
                 { Where = t => t.AssignedToName.Equals("Unassigned") });
 
-            var tickets = GetTickets();
+            var tickets = ticketData.GetAll();
             return View(tickets);
         }
 
@@ -109,7 +110,7 @@ namespace ITHelpDeskApp.Controllers
         [HttpPost]
         public RedirectToActionResult SaveNewTicket(Ticket ticket)
         {
-            var tickets = GetTickets().ToList();
+            var tickets = ticketData.GetAll();
             ticket.TicketNum = ticketModel.CalculateTicketNum(tickets);
 
             ticket.CreatedBy = GetLoggedInUserFullName();
@@ -164,21 +165,13 @@ namespace ITHelpDeskApp.Controllers
             return RedirectToAction("Index");
         }
 
-        private IEnumerable<User> GetUsers()
-        {
-            return userData.List(new QueryOptions<User> { OrderBy = u => u.UserId });
-        }
-
-        private IEnumerable<Ticket> GetTickets()
-        {
-            return ticketData.List(new QueryOptions<Ticket> { OrderBy = t => t.TicketId });
-        }
-
         private User GetLoggedInUser()
         {
             var loggedInUsername = HttpContext.Session.GetString("LoggedInUsername")?.ToLower();
 
-            var loggedInUser = GetUsers().Where(u => u.Username.ToLower() == loggedInUsername).FirstOrDefault();
+            var loggedInUser = userData.List(new QueryOptions<User>
+                { Where = u => u.Username.Equals(loggedInUsername) }).FirstOrDefault();
+
             if (loggedInUser != null) 
                 return loggedInUser;
 
@@ -187,8 +180,10 @@ namespace ITHelpDeskApp.Controllers
 
         private string GetLoggedInUserFullName()
         {
-            var firstName = GetLoggedInUser()?.FirstName;
-            var lastName = GetLoggedInUser()?.LastName;
+            var loggedInUser = GetLoggedInUser();
+            var firstName = loggedInUser?.FirstName;
+            var lastName = loggedInUser?.LastName;
+
             return $"{firstName} {lastName}";
         }
     }
