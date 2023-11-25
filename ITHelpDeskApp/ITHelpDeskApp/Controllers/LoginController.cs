@@ -44,7 +44,7 @@ namespace ITHelpDeskApp.Controllers
                 return RedirectToAction("LoginPage");
             }
 
-            // Set the logged in user in tempdata
+            // Set the logged in username in the session for checking which user is currently logged in 
             HttpContext.Session.SetString("LoggedInUsername", userWithMatchingUsername.Username);
             return RedirectToAction("Index", "Home");
         }

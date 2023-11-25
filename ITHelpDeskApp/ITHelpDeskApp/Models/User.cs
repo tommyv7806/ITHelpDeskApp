@@ -1,5 +1,6 @@
 ﻿using ITHelpDeskApp.Models.Repository;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
 namespace ITHelpDeskApp.Models
@@ -7,6 +8,7 @@ namespace ITHelpDeskApp.Models
     public class User
     {
         public User() => Tickets = new List<Ticket>();
+        
         public int UserId { get; set; }
 
         [Required(ErrorMessage = "Username is required")]
@@ -38,7 +40,7 @@ namespace ITHelpDeskApp.Models
         public ICollection<Ticket> Tickets { get; set; }
 
         public User GetLoggedInUser(string loggedInUsername, List<User> users)
-        {
+        {            
             var loggedInUser = users.Where(u => u.Username.Equals(loggedInUsername)).FirstOrDefault();
 
             if (loggedInUser != null)

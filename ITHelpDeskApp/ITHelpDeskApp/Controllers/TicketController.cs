@@ -19,6 +19,13 @@ namespace ITHelpDeskApp.Controllers
             set { _loggedInUsername = value; }
         }
 
+        private List<User>? _allUsers;
+        private List<User> AllUsers
+        {
+            get { return _allUsers ?? userData.GetAll(); }
+            set { _allUsers = value; }
+        }
+
         public TicketController(HelpDeskContext ctx)
         {
             userData = new Repository<User>(ctx);
@@ -37,15 +44,15 @@ namespace ITHelpDeskApp.Controllers
         public RedirectToActionResult SaveNewTicket(Ticket ticket)
         {
             var tickets = ticketData.GetAll();
-            ticket.TicketNum = ticketModel.CalculateTicketNum(tickets);
 
-            ticket.CreatedBy = userModel.GetLoggedInUserFullName(LoggedInUsername, userData.GetAll());
+            // Populate additional Ticket fields
+            ticket.TicketNum = ticketModel.CalculateTicketNum(tickets);
+            ticket.CreatedBy = userModel.GetLoggedInUserFullName(LoggedInUsername, AllUsers);
             ticket.Status = Ticket.Statuses.Open.ToString();
             ticket.AssignedToName = "Unassigned";
             ticket.CreatedDate = DateTime.Now;
 
-            ticketData.Insert(ticket);
-            ticketData.Save();
+            InsertNewTicket(ticket);
 
             return RedirectToAction("Index", "Home");
         }
@@ -55,10 +62,9 @@ namespace ITHelpDeskApp.Controllers
         {
             var ticket = ticketData.Get(ticketId);
 
-            ticket.AssignedToName = userModel.GetLoggedInUserFullName(LoggedInUsername, userData.GetAll());
+            ticket.AssignedToName = userModel.GetLoggedInUserFullName(LoggedInUsername, AllUsers);
 
-            ticketData.Update(ticket);
-            ticketData.Save();
+            UpdateTicket(ticket);
 
             return RedirectToAction("Index", "Home");
         }
@@ -66,7 +72,7 @@ namespace ITHelpDeskApp.Controllers
         [HttpGet]
         public IActionResult TicketSummary(int ticketId)
         {
-            var currentUser = userModel.GetLoggedInUser(LoggedInUsername, userData.GetAll());
+            var currentUser = userModel.GetLoggedInUser(LoggedInUsername, AllUsers);
 
             ViewData["LoggedInFirstName"] = currentUser.FirstName;
 
@@ -88,23 +94,31 @@ namespace ITHelpDeskApp.Controllers
             ticket.ClosedDate = DateTime.Now;
             ticket.Status = Ticket.Statuses.Closed.ToString();
 
-            ticketData.Update(ticket);
-            ticketData.Save();
+            UpdateTicket(ticket);
 
             return RedirectToAction("Index", "Home");
         }
-
 
         private string GetLoggedInUsername()
         {
             var loggedInUsername = HttpContext.Session.GetString("LoggedInUsername");
 
             if (loggedInUsername == null)
-            {
                 throw new Exception("Cannot find username for logged in user");
-            }
 
             return loggedInUsername;
+        }
+
+        private void InsertNewTicket(Ticket ticket)
+        {
+            ticketData.Insert(ticket);
+            ticketData.Save();
+        }
+
+        private void UpdateTicket(Ticket ticket)
+        {
+            ticketData.Update(ticket);
+            ticketData.Save();
         }
     }
 }
