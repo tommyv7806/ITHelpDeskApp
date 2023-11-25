@@ -17,7 +17,7 @@ namespace ITHelpDeskApp.Controllers
             ticketData = new Repository<Ticket>(ctx);
             ticketModel = new Ticket();
         }
-        public IActionResult Index()
+        public RedirectToActionResult Index()
         {
             // Check if Users.Any(IsLoggedInUser == true)
             if (HttpContext.Session.GetString("LoggedInUsername") == null)
@@ -44,6 +44,12 @@ namespace ITHelpDeskApp.Controllers
             ViewData["ErrorMessage"] = TempData["ErrorMessage"];
             TempData.Remove("ErrorMessage");
             return View();
+        }
+
+        public RedirectToActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index");
         }
 
         [HttpPost]

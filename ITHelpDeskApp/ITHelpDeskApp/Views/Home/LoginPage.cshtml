@@ -9,22 +9,37 @@
 }
 
 @{
-    Layout = null;
+    Layout = "_loginLayout";
 }
 
 <h2>@ViewData["ErrorMessage"]</h2>
-<form asp-action="ValidateLogin" method="post">
-    <div asp-validation-summary="All" class="text-danger"></div>
 
-    <div class="mx-sm-4 mt-2">
-        <label asp-for="Username" class="form-label">Username</label>
-        <input asp-for="Username" class="form-control" />
-    </div>
+<form asp-action="ValidateLogin" method="post" class="border border-light p-5">
 
-    <div class="mx-sm-4 mt-2">
-        <label asp-for="Password" class="form-label">Password</label>
-        <input asp-for="Password" class="form-control" />
-    </div>
+    <p class="h4 mb-4 text-center">Sign in</p>
 
-    <button type="submit" class="btn btn-dark">Login</button>
+    <input asp-for="Username" class="form-control mb-4" placeholder="Username">
+
+    <input asp-for="Password" type="password" class="form-control mb-4" placeholder="Password">
+
+    @* <div class="d-flex justify-content-between">
+        <div>
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="defaultLoginFormRemember">
+                <label class="custom-control-label" for="defaultLoginFormRemember">Remember me</label>
+            </div>
+        </div>
+        <div>
+            <a href="">Forgot password?</a>
+        </div>
+    </div> *@
+
+    <button class="btn btn-primary btn-block my-4" type="submit">Sign in</button>
+
+    @* <div class="text-center">
+        <p>
+            Not a member?
+            <a href="">Register</a>
+        </p>
+    </div> *@
 </form>
