@@ -32,7 +32,7 @@ namespace ITHelpDeskApp.Controllers
             // Check if Users.Any(IsLoggedInUser == true)
             if (HttpContext.Session.GetString("LoggedInUsername") == null)
             {
-                return RedirectToAction("LoginPage");
+                return RedirectToAction("LoginPage", "Login");
             }
 
             // Then, check if logged in user has IsItUser bool set to true
@@ -46,45 +46,6 @@ namespace ITHelpDeskApp.Controllers
 
             // If no, then direct user to non-IT User Summary page]
             return RedirectToAction("NonItUserSummaryPage");
-        }
-
-        [HttpGet]
-        public IActionResult LoginPage()
-        {
-            ViewData["ErrorMessage"] = TempData["ErrorMessage"];
-            TempData.Remove("ErrorMessage");
-            return View();
-        }
-
-        public RedirectToActionResult Logout()
-        {
-            HttpContext.Session.Clear();
-            return RedirectToAction("Index");
-        }
-
-        [HttpPost]
-        public RedirectToActionResult ValidateLogin(LoginUser loginUser)
-        {
-            var userWithMatchingUsername = userData.List(new QueryOptions<User>
-                { Where = u => u.Username.ToLower().Equals(loginUser.Username.ToLower()) }).FirstOrDefault();
-
-            if (userWithMatchingUsername == null)
-            {
-                // Add error message to tempdata that no matching username was found
-                TempData["ErrorMessage"] = "No matching username found";
-                return RedirectToAction("LoginPage");
-            }
-
-            if (!userWithMatchingUsername.Password.Equals(loginUser.Password)) 
-            {
-                // Add error to tempdata that password is incorrect
-                TempData["ErrorMessage"] = "Incorrect password";
-                return RedirectToAction("LoginPage");
-            }
-
-            // Set the logged in user in tempdata
-            HttpContext.Session.SetString("LoggedInUsername", userWithMatchingUsername.Username);
-            return RedirectToAction("Index");
         }
 
         public IActionResult ItUserSummaryPage()
