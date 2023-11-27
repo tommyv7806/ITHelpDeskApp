@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ITHelpDeskApp.Models
 {
@@ -14,7 +13,6 @@ namespace ITHelpDeskApp.Models
         [Required(ErrorMessage = "Ticket Description is required")]
         public string TicketDescription { get; set; } = string.Empty;
         public string ResolutionSummary { get; set; } = string.Empty;
-
         public string Status { get; set; } = string.Empty;
         public enum Statuses
         {
@@ -31,8 +29,6 @@ namespace ITHelpDeskApp.Models
         public string CreatedBy { get; set; } = string.Empty;
         public DateTime? CreatedDate { get; set; }
         public DateTime? ClosedDate { get; set; }
-
-        // Foreign key references
         public string AssignedToName { get; set; } = string.Empty;
 
         public int CalculateTicketNum(List<Ticket> tickets)

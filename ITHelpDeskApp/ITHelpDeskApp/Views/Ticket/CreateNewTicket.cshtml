@@ -1,4 +1,5 @@
-﻿@model Ticket
+﻿<!-- Form where users can create a new ticket -->
+@model Ticket
 
 @{ ViewData["Title"] = "Create a New Ticket Page"; }
 
@@ -25,6 +26,6 @@
         </select>
     </div>
 
-    <a asp-controller="Home" asp-action="Index" class="btn btn-dark">Cancel</a>
-    <button type="submit" class="btn btn-dark">Create</button>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Cancel</a>
+    <button type="submit" class="btn btn-warning">Create</button>
 </form>

@@ -9,14 +9,15 @@
     <link rel="stylesheet" href="~/ITHelpDeskApp.styles.css" asp-append-version="true" />
 </head>
 <body>
-    <header class="p-4 mb-3 bg-dark border d-flex justify-content-between" style="transform: rotate(0);">
-        <!-- Diplay the logged in User's first name -->
-         <div>
-             <h1><a style="text-decoration: none;" class="" asp-controller="Home" asp-action="Index">Welcome, @ViewData["LoggedInFirstName"]</a></h1>
+    <header class="p-4 mb-3 border d-flex justify-content-between" style="transform: rotate(0);">
+         <div><!-- Diplay the logged in User's first name -->
+             <h3>Welcome, @ViewData["LoggedInFirstName"]</h3>
         </div>
-        <!-- Logout button -->
-        <div>
-            <a asp-controller="Login" asp-action="Logout" class="btn btn-danger">Logout</a>
+        <div><!-- Display the name of the app and return users to the Ticket Overview when clicked -->
+            <h1><a style="text-decoration: none;" class="" asp-controller="Home" asp-action="Index">Ticket Manager</a></h1>
+        </div>
+        <div><!-- Logout button -->
+            <a asp-controller="Login" asp-action="Logout" class="btn btn-warning logoutButton">Logout</a>
         </div>
     </header>
     <div class="container">

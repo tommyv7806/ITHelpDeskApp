@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿// Model for storing the data when a user attemtps to login
+using System.ComponentModel.DataAnnotations;
 
 namespace ITHelpDeskApp.Models
 {

@@ -1,4 +1,6 @@
-﻿using ITHelpDeskApp.Models.Repository;
+﻿// This controls the logic behind when a user logs in and logs out of the app
+
+using ITHelpDeskApp.Models.Repository;
 using ITHelpDeskApp.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,7 +22,8 @@ namespace ITHelpDeskApp.Controllers
 
         public RedirectToActionResult Logout()
         {
-            HttpContext.Session.Clear();
+            // Clear the current user from the session
+            HttpContext.Session.Clear();                
             return RedirectToAction("Index", "Home");
         }
 

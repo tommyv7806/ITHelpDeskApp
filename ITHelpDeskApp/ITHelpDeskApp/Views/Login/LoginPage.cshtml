@@ -1,45 +1,19 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model LoginUser
 
-@model LoginUser
-
-@{
-    ViewData["Title"] = "Login Page";
-}
-
-@{
+@{ 
+    ViewData["Title"] = "Login Page"; 
     Layout = "_loginLayout";
 }
 
+<!-- Display any error messages such as wrong username/password here -->
 <h2>@ViewData["ErrorMessage"]</h2>
 
 <form asp-controller="Login" asp-action="ValidateLogin" method="post" class="border border-light p-5">
-
     <p class="h4 mb-4 text-center">Sign in</p>
 
     <input asp-for="Username" class="form-control mb-4" placeholder="Username">
 
     <input asp-for="Password" type="password" class="form-control mb-4" placeholder="Password">
 
-    @* <div class="d-flex justify-content-between">
-        <div>
-            <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="defaultLoginFormRemember">
-                <label class="custom-control-label" for="defaultLoginFormRemember">Remember me</label>
-            </div>
-        </div>
-        <div>
-            <a href="">Forgot password?</a>
-        </div>
-    </div> *@
-
-    <button class="btn btn-primary btn-block my-4" type="submit">Sign in</button>
-
-    @* <div class="text-center">
-        <p>
-            Not a member?
-            <a href="">Register</a>
-        </p>
-    </div> *@
+    <button class="btn btn-warning btn-block my-4" type="submit">Sign in</button>
 </form>

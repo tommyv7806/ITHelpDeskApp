@@ -1,4 +1,9 @@
-﻿using ITHelpDeskApp.Models;
+﻿/*
+ * This controls all the logic related to the tickets, such as creating a new one,
+ * assigning a ticket, closing a ticket, and displaying the ticket details.
+ * 
+ */
+using ITHelpDeskApp.Models;
 using ITHelpDeskApp.Models.Repository;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,7 +11,6 @@ namespace ITHelpDeskApp.Controllers
 {
     public class TicketController : Controller
     {
-        // Private variables for storing the different model repositories
         private Repository<User> userData { get; set; }
         private Repository<Ticket> ticketData { get; set; }
         private Ticket ticketModel;
@@ -37,6 +41,7 @@ namespace ITHelpDeskApp.Controllers
         [HttpGet]
         public IActionResult CreateNewTicket()
         {
+            ViewData["LoggedInFirstName"] = userModel.GetLoggedInUser(LoggedInUsername, AllUsers)?.FirstName;
             return View();
         }
 
@@ -61,7 +66,6 @@ namespace ITHelpDeskApp.Controllers
         public RedirectToActionResult AssignTicket(int ticketId)
         {
             var ticket = ticketData.Get(ticketId);
-
             ticket.AssignedToName = userModel.GetLoggedInUserFullName(LoggedInUsername, AllUsers);
 
             UpdateTicket(ticket);

@@ -44,7 +44,7 @@ namespace ITHelpDeskApp.Models.ModelDataConfigurations
                 new Ticket
                 {
                     TicketId = 3,
-                    TicketNum = 101,
+                    TicketNum = 102,
                     TicketTitle = "Can't connect to Internet",
                     TicketDescription = "Receiving a '404 error' on every webpage. This is an urgent request.",
                     Status = Ticket.Statuses.Open.ToString(),
@@ -56,7 +56,7 @@ namespace ITHelpDeskApp.Models.ModelDataConfigurations
                 new Ticket
                 {
                     TicketId = 4,
-                    TicketNum = 101,
+                    TicketNum = 103,
                     TicketTitle = "Request for new Quickbooks licenses",
                     TicketDescription = "Hello, this is a request to purchase 2 licenses for Quickbooks Enterprise 2023. These licenses will be for the new hires starting next week.",
                     Status = Ticket.Statuses.Open.ToString(),

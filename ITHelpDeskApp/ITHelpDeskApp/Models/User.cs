@@ -35,7 +35,7 @@ namespace ITHelpDeskApp.Models
             Support,
             Development
         }
-       
+
         [ValidateNever]
         public ICollection<Ticket> Tickets { get; set; }
 

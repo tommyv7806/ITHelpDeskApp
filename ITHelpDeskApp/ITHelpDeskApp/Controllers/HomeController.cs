@@ -1,4 +1,8 @@
-﻿using ITHelpDeskApp.Models;
+﻿/*
+ * This controller controls the flow of displaying the different Ticket Overview pages
+ * depending on if the user is an IT user or not. 
+ */
+using ITHelpDeskApp.Models;
 using ITHelpDeskApp.Models.Repository;
 using Microsoft.AspNetCore.Mvc;
 
@@ -46,7 +50,7 @@ namespace ITHelpDeskApp.Controllers
 
         public IActionResult ItUserSummaryPage()
         {
-            ViewData["LoggedInFirstName"] = userModel.GetLoggedInUser(LoggedInUsername, AllUsers)?.FirstName;
+            ViewData["LoggedInFirstName"] = GetLoggedInUserFirstName();
 
             ViewBag.UnassignedTickets = ticketData.List(new QueryOptions<Ticket> 
                 { Where = t => t.AssignedToName.Equals("Unassigned") });
@@ -57,7 +61,7 @@ namespace ITHelpDeskApp.Controllers
 
         public IActionResult NonItUserSummaryPage()
         {
-            ViewData["LoggedInFirstName"] = userModel.GetLoggedInUser(LoggedInUsername, AllUsers)?.FirstName;
+            ViewData["LoggedInFirstName"] = GetLoggedInUserFirstName();
 
             // Only want to get the tickets that were created by the logged in non-IT User
             var tickets = ticketData.List(new QueryOptions<Ticket>{ 
@@ -78,6 +82,11 @@ namespace ITHelpDeskApp.Controllers
             }
 
             return loggedInUsername;
+        }
+
+        private string GetLoggedInUserFirstName()
+        {
+            return userModel.GetLoggedInUser(LoggedInUsername, AllUsers)?.FirstName;
         }
 
         private bool UserIsNotLoggedIn()

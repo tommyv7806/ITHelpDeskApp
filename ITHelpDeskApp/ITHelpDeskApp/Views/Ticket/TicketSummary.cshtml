@@ -1,47 +1,62 @@
 ﻿@model Ticket
 
-<div>
-    <div class="col-6">
-        @Model.TicketNum    @Model.Priority
+<div class="center">
+    <div class="d-flex justify-content-between mb-3 me-2"><!-- Ticket summary header fields -->
+        <div><h4>Ticket #@Model.TicketNum</h4></div>
+        <div><h4><span class="badge bg-secondary">@Model.Priority</span></h4></div>
     </div>
-    <div>
-        <p>Title: @Model.TicketTitle</p>
-    </div>
-    <div>
-        <p>Description: @Model.TicketDescription</p>
-    </div>
-    <div>
-        <p>Submitted by: @Model.CreatedBy</p>
-    </div>
-    @if (Model.AssignedToName != "Unassigned")
-    {
+    <div class="ms-3"><!-- Main body of the summary -->
         <div>
-            <p>Assigned to: @Model.AssignedToName</p>
+            <p><span class="fieldName">Title: </span>@Model.TicketTitle</p>
         </div>
-    }
-
-    <!-- If the ticket is closed, display the Resolution Summary-->
-    @if (Model.ClosedDate != null)
-    {
         <div>
-            <p>Resolution Summary: @Model.ResolutionSummary</p>
+            <p><span class="fieldName">Description: </span>@Model.TicketDescription</p>
         </div>
-    }
-
-    <div>
-        <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Ticket Overview</a>
-    </div>
-
-    <!-- If the current user is an IT user and the ticket is Open, display the 'Close Ticket' button-->
-    @{
-        bool isItUser = ViewBag.IsItUser;
-        if (isItUser && Model.ClosedDate == null)
+        <div>
+            <p><span class="fieldName">Submitted by: </span>@Model.CreatedBy</p>
+        </div>
+        @if (Model.AssignedToName != "Unassigned")
         {
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ticketResolutionModal">
-                Close Ticket
-            </button>
+            <div>
+                <p><span class="fieldName">Assigned to: </span>@Model.AssignedToName</p>
+            </div>
         }
-    }
+
+        <!-- If the ticket is closed, display the Resolution Summary-->
+        @if (Model.ClosedDate != null)
+        {
+            <div>
+                <p><span class="fieldName">Resolution Summary: </span>@Model.ResolutionSummary</p>
+            </div>
+        }
+    </div>
+    <div class="container mt-4"><!-- Ticket summary footer where buttons are located -->
+        <div class="row justify-content-start">
+            <div class="col-4 px-0"><a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Ticket Overview</a></div>
+            <div class="col-4 ps-0">
+                @{
+                    bool isItUser = ViewBag.IsItUser;
+
+                    <!-- If the current user is an IT user and the ticket is Open and assigned, display the 'Close Ticket' button-->
+                    if (isItUser && Model.ClosedDate == null && Model.AssignedToName != "Unassigned")
+                    {
+                        <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#ticketResolutionModal">
+                            Close Ticket
+                        </button>
+                    }
+                    <!-- If the current user is an IT user and the ticket is Open but unassigned, then display the Pick Up button-->
+                    if (isItUser && Model.ClosedDate == null && Model.AssignedToName == "Unassigned")
+                    {
+                        <a asp-controller="Ticket" asp-action="AssignTicket" asp-route-ticketId="@Model.TicketId" class="btn btn-warning">Pick Up</a>
+                    }
+                }
+            </div>
+        </div>
+        
+    </div>
+    
+
+    
 </div>
 
 <div class="modal fade" id="ticketResolutionModal" tabindex="-1" aria-hidden="true">

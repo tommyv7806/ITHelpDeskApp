@@ -1,14 +1,12 @@
-﻿@model List<Ticket>
+﻿<!-- Displays the Ticket Overview for an IT user (i.e., shows 2 tables)-->
+@model List<Ticket>
 
 @{
     ViewData["Title"] = "IT User Ticket Summary Page";
 }
 
-<h2>IT User Page</h2>
 <!-- Table of Unassigned Tickets -->
-
-@if (ViewBag.UnassignedTickets.Count > 0)
-{
+<h2>Unassigned Tickets</h2>
     <div class="text-center">
         <table class="table table-bordered table-striped">
             <thead>
@@ -23,6 +21,9 @@
                 </tr>
             </thead>
             <tbody>
+            <!-- If there are unassigned tickets, display them -->
+            @if (ViewBag.UnassignedTickets.Count > 0) 
+            {
                 @foreach (var ticket in ViewBag.UnassignedTickets)
                 {
                     <tr>
@@ -32,23 +33,26 @@
                         <td>@ticket.Priority</td>
                         <td>@ticket.CreatedDate.ToShortDateString()</td>
                         <td>@ticket.CreatedBy</td>
-                        <td><a asp-controller="Ticket" asp-action="AssignTicket" asp-route-ticketId="@ticket.TicketId" class="btn btn-primary">Pick Up</a></td>
+                        <td><a asp-controller="Ticket" asp-action="AssignTicket" asp-route-ticketId="@ticket.TicketId" class="btn btn-warning">Pick Up</a></td>
                     </tr>
                 }
+            }
+            else
+            {
+                <!-- If there are no unassigned tickets, display this message instead -->
+                <tr>
+                    <td colspan="7"><h4>No Unassigned tickets to display</h4></td>
+                </tr>
+            }   
             </tbody>
         </table>
     </div>
-}
-else
-{
-    <div>
-        <h2>No Unassigned tickets to display</h2>
-    </div>
-}
+
 
 
 
 <!-- Table of all tickets -->
+<h2>All Tickets</h2>
 <div class="text-center">
     <table class="table table-bordered table-striped">
         <thead>

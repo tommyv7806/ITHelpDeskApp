@@ -4,12 +4,14 @@
     ViewData["Title"] = "Non-IT User Ticket Summary Page";
 }
 
-<h2>Non IT User Page</h2>
-<div class="text-center">
+<div class="d-flex justify-content-between mt-3 mb-2">
+    <div><h2>My Tickets</h2></div>
     <div>
-        <h3>My Tickets</h3>                    
-        <a asp-controller="Ticket" asp-action="CreateNewTicket" class="btn btn-primary">Create New</a>
+        <a asp-controller="Ticket" asp-action="CreateNewTicket" class="btn btn-warning">Create New</a>
     </div>
+</div>
+
+<div>
     <table class="table table-bordered table-striped">
         <thead>
             <tr>

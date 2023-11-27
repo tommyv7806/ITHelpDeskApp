@@ -1,4 +1,5 @@
-﻿@model Ticket
+﻿<!-- Modal window where users can enter a Resolution Summary when closing a ticket. -->
+@model Ticket
 
 <div class="modal-dialog">
     <div class="modal-content">
@@ -16,6 +17,7 @@
                 <textarea asp-for="ResolutionSummary" class="form-control" rows="3"></textarea>
                 </div>
 
+                <!-- Hidden fields used for storing values -->
                 <input type="hidden" asp-for="TicketId" value="@Model.TicketId" />
                 <input type="hidden" asp-for="TicketTitle" value="@Model.TicketTitle" />
                 <input type="hidden" asp-for="TicketDescription" value="@Model.TicketDescription" />
@@ -25,7 +27,6 @@
                 <input type="hidden" asp-for="CreatedDate" value="@Model.CreatedDate" />
                 <input type="hidden" asp-for="Priority" value="@Model.Priority" />
                 <input type="hidden" asp-for="Status" value="@Model.Status" />
-
 
                 <button type="submit" class="btn btn-dark">Close</button>
             </form>
