@@ -4,16 +4,16 @@
 <div class="modal-dialog">
     <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title">Close Ticket #@Model.TicketNum</h5>
+            <h4 class="modal-title">Close Ticket #@Model.TicketNum</h4>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <p>Title: @Model.TicketTitle</p>
+            <p><span class="fieldName">Title: </span>@Model.TicketTitle</p>
             <form asp-controller="Ticket" asp-action="CloseTicket" method="post">
                 <div asp-validation-summary="All" class="text-danger"></div>
 
                 <div class="mb-2">
-                <label asp-for="ResolutionSummary" class="form-label">Resolution Summary:</label>
+                <label asp-for="ResolutionSummary" class="form-label fieldName">Resolution Summary:</label>
                 <textarea asp-for="ResolutionSummary" class="form-control" rows="3"></textarea>
                 </div>
 
@@ -28,7 +28,7 @@
                 <input type="hidden" asp-for="Priority" value="@Model.Priority" />
                 <input type="hidden" asp-for="Status" value="@Model.Status" />
 
-                <button type="submit" class="btn btn-dark">Close</button>
+                <button type="submit" class="btn btn-warning">Close</button>
             </form>
         </div>
     </div>
